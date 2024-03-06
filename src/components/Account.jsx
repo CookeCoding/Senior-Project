@@ -53,8 +53,8 @@ const Account = () => {
     <div>
       <Navbar />
       <div className='fixed bottom-1 left-4 max-w-[600px] mx-auto my-16 p-4 '>
-        <h1 className='bottom-0 left-0 text-2xl font-bold py-4'>Account</h1>
-        <p>User Email: {user && user.email}</p>
+        <h1 className='bottom-0 left-0 text-3xl font-bold py-4'>Account</h1>
+        <p className='text-xl'> User Email: {user && user.email}</p>
   
         <button onClick={handleLogout} className='fixed bottom-4 right-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded'>
           Logout
@@ -111,20 +111,19 @@ const Account = () => {
           </tbody>
         </table>
       </Card>
-      <div>
-        <Link to="/add">
-  <button className='px-4 py-2 rounded-sm border border-green-500 bg-green-600 hover:bg-blue-500 w-full max-w-xs mx-auto my-2 text-white'>
-    Add
-  </button>
-  </Link>
+      <div className="flex justify-center items-center h-screen">
+  <div className="flex justify-center space-x-4">
+    <Link to="/add">
+      <button className="bg-green-500 hover:bg-green-400 text-white font-bold py-3 px-6 border-b-4 border-green-700 hover:border-green-500 rounded">
+        Add Furniture
+      </button>
+    </Link>
+    <button className="bg-red-500 hover:bg-red-400 text-white font-bold py-3 px-6 border-b-4 border-red-700 hover:border-red-500 rounded">
+      Delete Furniture
+    </button>
   </div>
-
-  <div>
-  <button className='px-4 py-2 rounded-sm border border-red-500 bg-red-600 hover:bg-red-500 w-full max-w-xs mx-auto my-2 text-white'>
-    Delete
-    
-  </button>
 </div>
+
 
       
     </div>
