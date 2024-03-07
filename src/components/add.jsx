@@ -21,7 +21,7 @@ const Add = () => {
     <div>
       <Navbar style={{ position: 'fixed', top: 0 }}></Navbar>
       <div className="flex justify-center items-center h-screen bg-gray-100">
-        <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-lg">
+        <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-10 pt-6 pb-8 mb-7 w-full max-w-4xl">
           <div className="mb-6">
             <label htmlFor="selectedFurniture" className="block text-gray-700 text-sm font-bold mb-2">
               Type of Furniture
@@ -97,7 +97,7 @@ const Add = () => {
               Description
             </label>
             <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-40"
               id="description"
               placeholder="Description"
               value={description}
