@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import Navbar from "./NavBar";
+import { db } from '../firebase';
+import Navbar from './NavBar';
+import { collection, addDoc } from "firebase/firestore";
+import {v4 as uuidv4} from "uuid";
+import Swal from '@sweetalert/with-react';
 
 const Add = () => {
   const [itemName, setItemName] = useState('');
-  const [color, setColor] = useState('');
   const [condition, setCondition] = useState('');
   const [issued, setIssued] = useState(false);
   const [selectedFurniture, setSelectedFurniture] = useState('');
@@ -11,10 +14,52 @@ const Add = () => {
   const [selectedDate, setSelectedDate] = useState('');
   const [description, setDescription] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you can handle the form submission, such as sending the data to the backend or processing it further
-    console.log('Submitted:', { itemName, color, condition, issued, selectedFurniture, selectedColor, selectedDate, description });
+
+    try {
+      const uniqueId=uuidv4();
+      const furnitureRef = collection(db, 'furniture'); // Reference to the 'furniture' collection
+       if (!condition || !issued || ! selectedFurniture || !selectedColor|| !selectedDate || !description||!itemName) {
+        return swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: 'All fields are required.',
+          showConfirmButton: true,
+        });
+      }
+
+      await addDoc(furnitureRef, {
+        id: uniqueId,
+        itemName: itemName,
+        condition: condition,
+        issued: issued,
+        selectedFurniture: selectedFurniture,
+        selectedColor: selectedColor,
+        selectedDate: selectedDate,
+        description: description
+      });
+
+      // Reset form fields after submission
+      setItemName('');
+      setCondition('');
+      setIssued(false);
+      setSelectedFurniture('');
+      setSelectedColor('');
+      setSelectedDate('');
+      setDescription('');
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Added!',
+        text: `${selectedFurniture} ${uniqueId}'s data has been Added.`,
+        showConfirmButton: false,
+        timer: 1500
+      });
+      console.log('Data sent successfully!');
+    } catch(error) {
+      console.error('Error adding document: ', error);
+    }
   };
 
   return (
@@ -137,10 +182,8 @@ const Add = () => {
 
           <div className="flex items-center justify-between">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-            >
-              Submit
+               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit" >Submit
             </button>
           </div>
         </form>

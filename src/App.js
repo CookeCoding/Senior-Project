@@ -9,6 +9,7 @@ import { AuthContextProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Waitlist from './components/waitlist';
 import Add from './components/add'; // Updated to use correct casing
+import swal from 'sweetalert2';
 
 function App() {
   return (
