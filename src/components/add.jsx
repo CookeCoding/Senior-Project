@@ -3,8 +3,7 @@ import { db } from '../firebase';
 import Navbar from './NavBar';
 import { collection, addDoc } from "firebase/firestore";
 import {v4 as uuidv4} from "uuid";
-import Swal from '@sweetalert/with-react';
-
+//asdas
 const Add = () => {
   const [itemName, setItemName] = useState('');
   const [condition, setCondition] = useState('');
@@ -18,15 +17,12 @@ const Add = () => {
     e.preventDefault();
 
     try {
-      const uniqueId=uuidv4();
+      const uniqueId = uuidv4();
       const furnitureRef = collection(db, 'furniture'); // Reference to the 'furniture' collection
-       if (!condition || !issued || ! selectedFurniture || !selectedColor|| !selectedDate || !description||!itemName) {
-        return swal.fire({
-          icon: 'error',
-          title: 'Error!',
-          text: 'All fields are required.',
-          showConfirmButton: true,
-        });
+
+      if (!condition || !issued || !selectedFurniture || !selectedColor || !selectedDate || !description) {
+        console.log('All fields are required.');
+        return;
       }
 
       await addDoc(furnitureRef, {
@@ -49,16 +45,9 @@ const Add = () => {
       setSelectedDate('');
       setDescription('');
 
-      Swal.fire({
-        icon: 'success',
-        title: 'Added!',
-        text: `${selectedFurniture} ${uniqueId}'s data has been Added.`,
-        showConfirmButton: false,
-        timer: 1500
-      });
       console.log('Data sent successfully!');
     } catch(error) {
-      console.error('Error adding document: ', error);
+      console.log('Error adding document: ');
     }
   };
 
@@ -181,9 +170,8 @@ const Add = () => {
           </div>
 
           <div className="flex items-center justify-between">
-            <button
-               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit" >Submit
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type="submit"> Submit
             </button>
           </div>
         </form>

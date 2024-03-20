@@ -32,8 +32,7 @@ const Navbar = () => {
           </span>
           <Link to="/Account" className="font-medium text-blue-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 text-xl" href="#" aria-current="page">Home</Link>
           <Link to ="/Help" className="font-medium text-gray-600 hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 text-xl" href="#">Help</Link>
-          <a className="font-medium text-gray-600 hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 text-xl" href="#">Dashboard</a>
-          {/* Adding the Link to the Waitlist */}
+          <Link to="/Dashboard" className="font-medium text-gray-600 hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 text-xl" href="#">Dashboard</Link>
           <Link to="/waitlist" className="font-medium text-gray-600 hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 text-xl">Waitlist</Link>
         </div>
       </nav>

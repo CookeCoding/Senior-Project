@@ -2,8 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserAuth } from '../context/AuthContext';
 import Navbar from './NavBar';
-import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
+import Table from './Table';
 
 
 const Account = () => {
@@ -20,10 +20,11 @@ const Account = () => {
     }
   };
 
-
+///asdasdasd
   return (
     <div>
-      <Navbar />
+      <Navbar/>
+      <Table/>
       <div className='fixed bottom-1 left-4 max-w-[600px] mx-auto my-16 p-4 '>
         <h1 className='bottom-0 left-0 text-3xl font-bold py-4'>Account</h1>
         <p className='text-xl'> User Email: {user && user.email}</p>
