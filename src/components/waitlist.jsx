@@ -1,17 +1,60 @@
-import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { db } from "../firebase";
 import Navbar from "./NavBar";
+import { collection, addDoc, getDocs, deleteDoc, doc } from "firebase/firestore";
+import Account from "./Account";
 
 function Waitlist() {
   const [email, setEmail] = useState('');
   const [selectedFurniture, setSelectedFurniture] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
+  const [waitlistData, setWaitlistData] = useState([]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Your form submission logic goes here
+  useEffect(() => {
+    fetchWaitlistData();
+  }, []);
+
+  const fetchWaitlistData = async () => {
+    const waitlistCollection = collection(db, 'waitlist');
+    const querySnapshot = await getDocs(waitlistCollection);
+    const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    setWaitlistData(data);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const waitlistRef = collection(db, 'waitlist');
+      if (!email || !selectedFurniture || !selectedColor) {
+        console.log('All fields are required');
+        return;
+      }
+      await addDoc(waitlistRef, {
+        email: email,
+        selectedFurniture: selectedFurniture,
+        selectedColor: selectedColor,
+      });
+      setEmail('');
+      setSelectedColor('');
+      setSelectedFurniture('');
+      console.log("Successfully added");
+      fetchWaitlistData(); // Refresh the waitlist data after adding a new entry
+    } catch (error) {
+      console.error('Error adding', error);
+    }
+  };
+
+  const deleteFurniture = async (id) => {
+    try {
+      await deleteDoc(doc(db, 'waitlist', id));
+      console.log("Successfully deleted");
+      const updatedWaitlist = waitlistData.filter(item => item.id !== id);
+      setWaitlistData(updatedWaitlist);
+    } catch (error) {
+      console.error('Error deleting', error);
+    }
+  };
+  
   return (
     <>
       <Navbar style={{ position: 'fixed', top: 0 }} />
@@ -46,6 +89,22 @@ function Waitlist() {
           </div>
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit"> Submit</button>
         </form>
+        <div className="mt-8">
+          <h2 className="text-xl font-bold mb-4">Waitlist Information</h2>
+          <ul>
+            {waitlistData.map((item) => (
+              <li key={item.id} className="mb-2 flex items-center justify-between">
+                <div>
+                  <strong>Email:</strong> {item.email},{" "}
+                  <strong>Furniture:</strong> {item.selectedFurniture},{" "}
+                  <strong>Color:</strong> {item.selectedColor}
+                </div>
+                <button onClick={() => deleteFurniture(item.id)} className="bg-red-500 hover:bg-red-400 text-white font-bold py-3 px-6 border-b-4 border-red-700 hover:border-red-500 rounded">Delete</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+        
       </div>
     </>
   );

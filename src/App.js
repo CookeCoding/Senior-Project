@@ -9,6 +9,8 @@ import { AuthContextProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Waitlist from './components/waitlist';
 import Add from './components/add'; // Updated to use correct casing
+import Dashboard from './components/Dashboard';
+
 
 function App() {
   return (
@@ -20,10 +22,14 @@ function App() {
           <Route path='/signup' element={<Signup />} />
           <Route path='Help' element={<Help />} />
           <Route path='/account'element={  <ProtectedRoute> <Account /></ProtectedRoute>
+
             }
           />
+      
           <Route path='/waitlist' element={<Waitlist />} />
           <Route path='/Add' element={<Add />} />
+          <Route path='/Dashboard' element={ <Dashboard /> } />
+          
         </Routes>
       </AuthContextProvider>
     </div>

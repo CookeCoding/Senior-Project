@@ -18,6 +18,7 @@ const Add = () => {
 
     try {
       const uniqueId = uuidv4();
+      const fullID= `MSMU-${uniqueId}`;
       const furnitureRef = collection(db, 'furniture'); // Reference to the 'furniture' collection
 
       if (!condition || !issued || !selectedFurniture || !selectedColor || !selectedDate || !description) {
@@ -26,7 +27,7 @@ const Add = () => {
       }
 
       await addDoc(furnitureRef, {
-        id: uniqueId,
+        id: fullID,
         itemName: itemName,
         condition: condition,
         issued: issued,

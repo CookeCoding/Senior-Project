@@ -1,13 +1,14 @@
-import React from 'react';
+
 import Navbar from './NavBar';
-import Table from './Table';
+import Charts  from './Charts';
+
 
 const Dashboard = () => {
-  
-return (
+
+  return (
     <div>
-      <Navbar style={{ position: 'fixed', top: 0 }}></Navbar>
-      <Table/>
+      <Navbar />
+      <Charts/>
     </div>
   );
 };

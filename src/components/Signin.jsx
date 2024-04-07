@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserAuth } from '../context/AuthContext';
+import { getAuth, GoogleAuthProvider, signInWithPopup, OAuthProvider, reauthenticateWithPopup } from "firebase/auth";
+
+const auth = getAuth();
 
 const Signin = () => {
   const [email, setEmail] = useState('');
@@ -8,6 +11,38 @@ const Signin = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const { signIn } = UserAuth();
+
+  // Google and Outlook sign-in handler
+  const handleOAuthSignIn = async (provider) => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const credential = provider.credentialFromResult(result);
+      const token = credential.accessToken;
+      const user = result.user;
+      navigate('/account');
+    } catch (error) {
+      setError(error.message);
+      console.log(error.message);
+    }
+  };
+
+  // Outlook provider for re-authentication
+  const outlookProvider = new OAuthProvider('microsoft.com');
+  
+  const handleOutlookReauthenticate = () => {
+    reauthenticateWithPopup(auth.currentUser, outlookProvider)
+      .then((result) => {
+        // Handle re-authentication success
+        const credential = outlookProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+        const idToken = credential.idToken;
+      })
+      .catch((error) => {
+        // Handle re-authentication error
+        setError(error.message);
+        console.log(error.message);
+      });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -55,8 +90,17 @@ const Signin = () => {
               <button className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded mr-2">
                 Sign In
               </button>
-              <button className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
+              <button 
+                onClick={() => handleOAuthSignIn(new GoogleAuthProvider())}
+                className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+              >
                 Sign in with Google
+              </button>
+              <button 
+                onClick={() => handleOAuthSignIn(outlookProvider)}
+                className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+              >
+                Sign in with Outlook
               </button>
             </form>
           </div>
@@ -75,4 +119,3 @@ const Signin = () => {
 };
 
 export default Signin;
-
