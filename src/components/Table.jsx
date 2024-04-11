@@ -69,7 +69,7 @@ const Table = () => {
                             Condition
                         </th>
                         <th scope="col" className="px-3 py-2"> {/* Adjusted px and py */}
-                            Action
+                            Location 
                         </th>
                     </tr>
                 </thead>
@@ -82,6 +82,7 @@ const Table = () => {
                             <td className="px-3 py-2">{item.selectedDate || '-'}</td>
                             <td className="px-3 py-2">{item.description || '-'}</td>
                             <td className="px-3 py-2">{item.condition || '-'}</td>
+                            <td className="px-3 py-2">{item.Locations|| '-'}</td>
                             <td className="px-3 py-2">
                                 <button onClick={() => deleteFurniture(item.id)} className="bg-red-500 hover:bg-red-400 text-white font-bold py-3 px-6 border-b-4 border-red-700 hover:border-red-500 rounded">Delete</button>
                             </td>

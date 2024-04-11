@@ -3,7 +3,11 @@ import { db } from '../firebase';
 import Navbar from './NavBar';
 import { collection, addDoc } from "firebase/firestore";
 import {v4 as uuidv4} from "uuid";
+import toast, { Toaster } from 'react-hot-toast';
 //asdas
+const notify = () => 
+console.log('Attempting to display success toast...');
+toast.success('Data sent successfully!');
 const Add = () => {
   const [itemName, setItemName] = useState('');
   const [condition, setCondition] = useState('');
@@ -12,6 +16,7 @@ const Add = () => {
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const [description, setDescription] = useState('');
+  const [Locations, setLocations] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +26,7 @@ const Add = () => {
       const fullID= `MSMU-${uniqueId}`;
       const furnitureRef = collection(db, 'furniture'); // Reference to the 'furniture' collection
 
-      if (!condition || !issued || !selectedFurniture || !selectedColor || !selectedDate || !description) {
+      if (!condition || !issued || !selectedFurniture || !selectedColor || !selectedDate || !description||!Locations) {
         console.log('All fields are required.');
         return;
       }
@@ -34,7 +39,9 @@ const Add = () => {
         selectedFurniture: selectedFurniture,
         selectedColor: selectedColor,
         selectedDate: selectedDate,
-        description: description
+        description: description,
+        Locations: Locations
+
       });
 
       // Reset form fields after submission
@@ -45,10 +52,12 @@ const Add = () => {
       setSelectedColor('');
       setSelectedDate('');
       setDescription('');
+      setLocations('');
 
       console.log('Data sent successfully!');
     } catch(error) {
       console.log('Error adding document: ');
+      toast.error('Error adding document. Please try again.'); // Error toast notification
     }
   };
 
@@ -141,6 +150,19 @@ const Add = () => {
           </div>
 
           <div className="mb-6">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
+              Location
+            </label>
+            <textarea
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-20"
+              id="Location"
+              placeholder="Location"
+              value={Locations}
+              onChange={(e) => setLocations(e.target.value)}
+            />
+          </div>
+
+          <div className="mb-6">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="condition">
               Condition
             </label>
@@ -174,6 +196,7 @@ const Add = () => {
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"> Submit
             </button>
+            <Toaster /> 
           </div>
         </form>
       </div>

@@ -104,7 +104,7 @@ function Waitlist() {
             ))}
           </ul>
         </div>
-        
+      
       </div>
     </>
   );

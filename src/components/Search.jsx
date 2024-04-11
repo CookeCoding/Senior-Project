@@ -15,7 +15,7 @@ const Search = () => {
       }
 
       const furnitureRef = collection(db, 'furniture');
-      const q = query(furnitureRef, where('itemName', '==', searchTerm));
+      const q = query(furnitureRef, where('setSelectedFurniture', '==', searchTerm));
 
       const querySnapshot = await getDocs(q);
       const results = [];
@@ -72,7 +72,7 @@ const Search = () => {
         <h3>Search Results:</h3>
         <ul>
           {searchResults.map((item, index) => (
-            <li key={index}>{item.itemName}</li>
+            <li key={index}>{item.setSelectedFurniture}</li>
             // You can display other item details as needed
           ))}
         </ul>
